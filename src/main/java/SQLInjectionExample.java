@@ -2,13 +2,13 @@ import java.sql.*;
 
 public class SQLInjectionExample {
     public static void main(String[] args) throws SQLException {
-        String userInputA = args[1];
 
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "root", "root");
 
-        String query = "SELECT * FROM users WHERE username = '" + userInputA + "';";
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        String query = "SELECT * FROM users WHERE username = ?" + ";";
+        PreparedStatement stmt = con.prepareStatement(query);
+        stmt.setString(1, args[1]);
+        ResultSet rs = stmt.execute();
 
         while (rs.next()) {
             String username = rs.getString("username");
