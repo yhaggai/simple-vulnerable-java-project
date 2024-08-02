@@ -1,9 +1,10 @@
+import io.github.pixee.security.SystemCommand;
 import java.util.*;
 import java.io.*;
 
 class CMDInjectionExample {
     public static void main(String[] args) throws Exception {
-        Process proc = Runtime.getRuntime().exec("ls -laxo " + args[0]);
+        Process proc = SystemCommand.runCommand(Runtime.getRuntime(), "ls -laxo " + args[0]);
         proc.waitFor();
 
         var stdio = new BufferedReader(new InputStreamReader(proc.getInputStream()));
