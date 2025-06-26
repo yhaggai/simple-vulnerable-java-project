@@ -1,3 +1,4 @@
+import io.github.pixee.security.BoundedLineReader;
 import java.util.*;
 import java.io.*;
 
@@ -9,10 +10,10 @@ class CMDInjectionExample {
         var stdio = new BufferedReader(new InputStreamReader(proc.getInputStream()));
         var stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
         String line = null;
-        while ((line = stdio.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(stdio, 5_000_000)) != null) {
             System.out.println(line);
         }
-        while ((line = stderr.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(stderr, 5_000_000)) != null) {
             System.out.println(line);
         }
     }
